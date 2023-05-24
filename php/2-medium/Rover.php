@@ -10,6 +10,16 @@ class Rover
     private int $y;
     private int $x;
 
+    /**
+     * If PHP constraint > version 8 :
+     * public function __construct(
+     *      private int $x,
+     *      private int $y,
+     *      private string $direction
+     * ) {}
+     * 
+     * And remove property defined earlier
+     */
     public function __construct(int $x, int $y, string $direction)
     {
         $this->direction = $direction;
@@ -18,6 +28,48 @@ class Rover
     }
 
     public function receive(string $commandsSequence): void
+    {
+        // Cardinal points are sequence so we can use them as it
+        $directions = "NESW";
+        $currentDirectionIndex = strpos($directions, $this->direction);
+        $commands = explode('', $commandsSequence);
+        foreach ($commands as $command) {
+            
+            // Rotate clockwise
+            if ($command == "r") {
+                $currentDirectionIndex++;
+                $this->direction = $directions[$currentDirectionIndex];
+                continue;
+            }
+            // Rotate anticlockwise
+            if ($command == "l") {
+                $currentDirectionIndex--;
+                $this->direction = $directions[$currentDirectionIndex];
+                continue;
+            }
+            
+            // Displace rover
+            if (
+                $this->direction == "N"
+                || $this->direction == "S"
+            ) {
+                // Moving up or down
+                $this->y += ($this->direction == "S" || $command == "f")
+                    ? -1
+                    : 1
+                ;
+                continue;
+            }
+            
+            // Moving left or right
+            $this->x += ($this->direction == "E" || $command == "f")
+                ? -1
+                : 1
+            ; 
+        }
+    }
+
+    /**public function receive(string $commandsSequence): void
     {
         $commandsSequenceLenght = strlen($commandsSequence);
         for ($i = 0; $i < $commandsSequenceLenght; ++$i) {
@@ -69,5 +121,5 @@ class Rover
                 }
             }
         }
-    }
+    }*/
 }
