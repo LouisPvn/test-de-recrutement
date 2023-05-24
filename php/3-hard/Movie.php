@@ -8,12 +8,12 @@ namespace App;
 
 class Movie
 {
-    public const CHILDREN = 2;
     public const REGULAR = 0;
     public const NEW_RELEASE = 1;
+    public const CHILDREN = 2;
 
-    private string $title;
     private int $priceCode;
+    private string $title;
 
     public function __construct(string $title, int $priceCode)
     {

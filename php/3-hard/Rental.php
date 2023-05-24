@@ -8,6 +8,9 @@ namespace App;
 
 class Rental
 {
+    private int $daysRented;
+    private Movie $movie;
+
     public function __construct(Movie $movie, int $daysRented)
     {
         $this->movie = $movie;
@@ -23,7 +26,4 @@ class Rental
     {
         return $this->movie;
     }
-
-    private Movie $movie;
-    private int $daysRented;
 }
